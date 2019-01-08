@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hntelecom.storm.octopus.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.hntelecom.storm.octopus.bean.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="open_id" jdbcType="VARCHAR" property="open_id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="department" jdbcType="VARCHAR" property="department" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="companyType" jdbcType="VARCHAR" property="companyType" />
+    <result column="bossId" jdbcType="INTEGER" property="bossId" />
+    <result column="roleId" jdbcType="INTEGER" property="roleId" />
+    <result column="proposerId" jdbcType="INTEGER" property="proposerId" />
+    <result column="machineType" jdbcType="VARCHAR" property="machineType" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, open_id, name, telephone, company, department, duty, city, county, companyType, 
+    bossId, roleId, proposerId, machineType, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <select id="selectMachineType" resultMap="java.util.HashMap">
+    select 
+    *
+    from machine_type
+  </select>
+
+
+</mapper>
