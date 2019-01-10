@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hntelecom.storm.octopus.dao.ConstructionMapper">
+  <resultMap id="BaseResultMap" type="com.hntelecom.storm.octopus.model.Construction">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="proCategory" jdbcType="VARCHAR" property="proCategory" />
+    <result column="conCategory" jdbcType="VARCHAR" property="conCategory" />
+    <result column="beginDate" jdbcType="DATE" property="beginDate" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="longtitude" jdbcType="DECIMAL" property="longtitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="des" jdbcType="VARCHAR" property="des" />
+    <result column="userId" jdbcType="INTEGER" property="userId" />
+
+    <collection property="picUrl" ofType="com.hntelecom.storm.octopus.model.Appendix">
+      <id column="appId" jdbcType="INTEGER" property="id" />
+      <result column="url" jdbcType="VARCHAR" property="url" />
+    </collection>
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, proCategory, conCategory, beginDate, address, longtitude, latitude, des, userId ,
+  </sql>
+
+  <delete id="deleteConstructionById" parameterType="java.lang.Integer">
+    delete from appendix where parentId = #{id,jdbcType=INTEGER};
+    delete from construction where id = #{id,jdbcType=INTEGER};
+  </delete>
+
+  <insert id="insertConstruction" parameterType="com.hntelecom.storm.octopus.model.Construction" keyProperty="id" useGeneratedKeys="true" keyColumn="id">
+    insert into construction (id, proCategory, conCategory,
+      beginDate, address, longtitude,
+      latitude, des, userId
+      )
+    values (#{id,jdbcType=INTEGER}, #{proCategory,jdbcType=VARCHAR}, #{conCategory,jdbcType=VARCHAR},
+      #{beginDate,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, #{longtitude,jdbcType=DECIMAL},
+      #{latitude,jdbcType=DECIMAL}, #{des,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}
+      )
+  </insert>
+
+  <update id="updateConstruction"  parameterType="com.hntelecom.storm.octopus.model.Construction">
+      update construction set proCategory = #{proCategory}, conCategory = #{proCategory}, beginDate = #{proCategory},
+       address = #{proCategory}, longtitude = #{proCategory}, latitude = #{proCategory}, des = #{proCategory} where id = #{id}
+  </update>
+
+  <select id="getConstructionByUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    con.id, con.proCategory, con.conCategory, con.beginDate, con.address, con.longtitude, con.latitude, con.des, con.userId, app.appId, app.url
+    from construction con left join appendix app on con.id = app.parentId
+    where con.userId= #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getAllConstructions" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    con.id, con.proCategory, con.conCategory, con.beginDate, con.address, con.longtitude, con.latitude, con.des, con.userId, app.appId, app.url
+    from construction con left join appendix app on con.id = app.parentId
+  </select>
+
+
+</mapper>
